@@ -1,0 +1,231 @@
+*{
+  scrollbar-width: thin;
+  scrollbar-color: #13f748  #2d2d2d;
+}
+html{
+  background:  #2d2d2d;
+}
+#app {
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: none;
+  font-weight: normal;
+  background:  #2d2d2d;
+  h1,h2{
+    text-align: center;
+    color: white;
+  }
+  .wrapper {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+  }
+  main {
+    background:  #2d2d2d;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    max-height: 70vh;
+    overflow-y: auto;
+    flex-grow: 1;
+    
+  }
+  pre {
+    background: #2d2d2d;
+    color: #ffffff;
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 14px;
+    overflow-x: auto;
+  }
+  .aside_tools {
+    width: 360px ;
+    border-left: 1px solid #ccc;
+    padding: 20px;
+    max-height: 80vh;
+    overflow-y: auto;
+    scrollbar-width: none;
+    form{
+      position: relative;
+      width: 100%;
+      label{
+        color: #e8e8e8;
+        font-size: 14px;
+      }
+      input,textarea {
+        border: solid 1.5px #9e9e9e;
+        border-radius: 1rem;
+        background: none;
+        padding: 10px;
+        font-size: 16px;
+        color: #f5f5f5;
+        transition: border 150ms cubic-bezier(0.4,0,0.2,1);
+        margin: 10px 0 20px;
+        width: 88%;
+        max-width: 88%;
+        min-width: 88%;
+      }
+    }
+    
+  }
+  .fields_container {
+    margin-bottom: 20px;
+    .field_item {
+      font-family: "Arial";
+      padding: 1rem;
+      cursor: pointer;
+      border-radius:  0.75rem;
+      background: #2d2d2d;
+      box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.03);
+      position: relative;
+      border: solid 1.5px #9e9e9e;
+      cursor: grab;
+      margin-bottom: 20px;
+      overflow: hidden;
+      p{
+        color: white;
+        font-size: 1rem;
+        margin: 10px 0;
+      }
+      input,textarea,select {
+        border: solid 1.5px #9e9e9e;
+        border-radius: 1rem;
+        background: none;
+        padding: 10px;
+        font-size: 16px;
+        color: #f5f5f5;
+        transition: border 150ms cubic-bezier(0.4,0,0.2,1);
+        margin: 4px 0 10px;
+        width: 88%;
+        background: #2d2d2d;
+      }
+      .field_group{
+        display: flex;
+        flex-direction: column;
+        option,label{
+          color: white;
+          font-size: 14px;
+        }
+      }
+      .delete_button {
+        background-color: #ff4d4d;
+        position: absolute;
+        right: -12px;
+        top: -10px;
+        border-radius: 0 0 0 70%;
+        padding: 26px;
+        cursor: pointer;
+        color: white;
+        text-shadow: 2px 1px 2px rgba(255,255,255,0.6);
+        transition: all 0.6s ease;
+        &:hover{
+          background-color: #8a0909;
+          scale: 1.1;
+          transition: all 0.6s ease;
+        }
+      }
+    }
+  }
+  
+  .button-create {
+    background-color: #ffffff00;
+    color: #13f748;
+    width: 8.5em;
+    height: 2.9em;
+    border: #13f748 0.2em solid;
+    border-radius: 11px;
+    text-align: right;
+    transition: all 0.6s ease;
+    cursor: pointer;
+    position: relative;
+    text-align: center;
+    &:hover {
+      background-color: #13f748;
+      border: white 0.2em solid;
+      cursor: pointer;
+      color: white;
+      font-weight: bold;
+    }
+    svg {
+      width: 1.6em;
+      margin: -0.2em 0.8em 1em 0.1em;
+      position: absolute;
+      display: flex;
+      transition: all 0.6s ease;
+    }
+    &:hover svg {
+      transform: translateX(5px);
+    }
+  }
+
+
+.button-create_shortcode {
+  position: relative;
+  width: 224px;
+  height: 40px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  border: 1px solid #34974d;
+  background-color: #3aa856;
+  margin-top: 60px;
+}
+
+.button-create_shortcode , .button__icon, .button__text {
+  transition: all 0.3s;
+}
+
+.button-create_shortcode .button__text {
+  transform: translateX(30px);
+  color: #fff;
+  font-weight: 600;
+}
+
+.button-create_shortcode .button__icon {
+  position: absolute;
+  transform: translateX(178px);
+  height: 100%;
+  width: 39px;
+  background-color: #34974d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button-create_shortcode .svg {
+  width: 30px;
+  stroke: #fff;
+}
+
+.button-create_shortcode:hover {
+  background: #34974d;
+}
+
+.button-create_shortcode:hover .button__text {
+  color: transparent;
+}
+
+.button-create_shortcode:hover .button__icon {
+  width: 148px;
+  transform: translateX(0);
+}
+
+.button-create_shortcode:active .button__icon {
+  background-color: #2e8644;
+}
+
+.button-create_shortcode:active {
+  border: 1px solid #2e8644;
+}
+
+  
+
+}
+body{
+  font-family: "Roboto", serif; ;
+}
+
+
+.field_item:active {
+  cursor: grabbing;
+}

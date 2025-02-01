@@ -45,6 +45,13 @@ html{
     max-height: 80vh;
     overflow-y: auto;
     scrollbar-width: none;
+    .aside_shortcodes{
+      ul{
+        li{
+          color: white;
+        }
+      }
+    }
     form{
       position: relative;
       width: 100%;
@@ -126,37 +133,6 @@ html{
       }
     }
   }
-  
-  .button-create {
-    background-color: #ffffff00;
-    color: #13f748;
-    width: 8.5em;
-    height: 2.9em;
-    border: #13f748 0.2em solid;
-    border-radius: 11px;
-    text-align: right;
-    transition: all 0.6s ease;
-    cursor: pointer;
-    position: relative;
-    text-align: center;
-    &:hover {
-      background-color: #13f748;
-      border: white 0.2em solid;
-      cursor: pointer;
-      color: white;
-      font-weight: bold;
-    }
-    svg {
-      width: 1.6em;
-      margin: -0.2em 0.8em 1em 0.1em;
-      position: absolute;
-      display: flex;
-      transition: all 0.6s ease;
-    }
-    &:hover svg {
-      transform: translateX(5px);
-    }
-  }
 
 
 .button-create_shortcode {
@@ -168,7 +144,10 @@ html{
   align-items: center;
   border: 1px solid #34974d;
   background-color: #3aa856;
-  margin-top: 60px;
+}
+.button_add_list{
+  position: absolute;
+  bottom: 4%;
 }
 
 .button-create_shortcode , .button__icon, .button__text {

@@ -147,7 +147,17 @@ html{
 }
 .button_add_list{
   position: absolute;
-  bottom: 4%;
+  bottom: calc(4% - 60px);
+  width: 180px;
+  .button__icon{
+    transform: translateX(134px);
+  }
+  &:hover{
+    .button__icon{
+      transform: translateX(-4%);
+      width: 100%;
+    }
+  }
 }
 
 .button-create_shortcode , .button__icon, .button__text {

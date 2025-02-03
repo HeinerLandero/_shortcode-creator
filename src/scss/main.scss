@@ -1,6 +1,9 @@
 //import modules
-@import 'header/skin';
-@import 'header/skeleton';
+
+@use 'header/skin' as *;
+@use 'footer/skin' as *;
+@use 'botton_downl/skin' as *;
+@use 'botton_add/skin' as *;
 
 #app {
     max-width: 1280px;

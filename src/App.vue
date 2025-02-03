@@ -1,11 +1,13 @@
 <script setup>
 import { ref } from 'vue';
 import JSZip from 'jszip';
+import Footer from '@/components/Footer.vue';
+import BottonDownLoad from './components/BottonDownLoad.vue';
+import BottonAdd from './components/BottonAdd.vue';
 
-// Declarar shortcodeName
+
 const shortcodeName = ref('');
 
-// Estado inicial del JSON
 const jsonData = ref({
   caption: '',
   blocked: {
@@ -25,10 +27,8 @@ const jsonData = ref({
   fields: [],
 });
 
-// Lista de shortcodes
 const shortcodes = ref([]);
 
-// Función para agregar nuevos campos
 const addField = () => {
   jsonData.value.groups[0].fields.push({
     caption: '',
@@ -39,12 +39,10 @@ const addField = () => {
   });
 };
 
-// Función para eliminar un campo por su índice
 const deleteField = (index) => {
   jsonData.value.groups[0].fields.splice(index, 1);
 };
 
-// Estado para arrastrar y soltar
 let draggedIndex = null;
 
 const onDragStart = (index) => {
@@ -61,13 +59,11 @@ const onDrop = (dropIndex) => {
 };
 
 const updateBlockedArray = (key, value) => {
-  // Limpiar los valores, separarlos por coma y asegurarse de que sean números
   const newValues = value
     .split(',')
     .map((item) => parseFloat(item.trim()))
-    .filter((item) => !isNaN(item)); // Filtra valores no numéricos
+    .filter((item) => !isNaN(item)); 
 
-  // Sobrescribe el array con los nuevos valores
   jsonData.value.blocked[key] = newValues;
 };
 
@@ -78,13 +74,11 @@ const addShortcode = () => {
     return;
   }
 
-  // Agregar el shortcode a la lista
   shortcodes.value.push({
     name: shortcodeName.value,
     data: jsonData.value,
   });
 
-  // Reiniciar el formulario
   shortcodeName.value = '';
   jsonData.value = {
     caption: '',
@@ -112,7 +106,6 @@ const downloadJsonFiles = () => {
     return;
   }
 
-  // Crear un archivo ZIP para descargar todos los shortcodes
   const zip = new JSZip();
 
   shortcodes.value.forEach((shortcode) => {
@@ -120,6 +113,10 @@ const downloadJsonFiles = () => {
       type: 'application/json',
     });
     zip.file(`${shortcode.name}.json`, jsonBlob);
+
+    const phpContent = generatePhpFile(shortcode.data);
+    const phpBlob = new Blob([phpContent], { type: 'application/php' });
+    zip.file(`${shortcode.name}.php`, phpBlob);
   });
 
   zip.generateAsync({ type: 'blob' }).then((content) => {
@@ -128,6 +125,19 @@ const downloadJsonFiles = () => {
     link.download = 'shortcodes.zip';
     link.click();
   });
+};
+
+const generatePhpFile = (data) => {
+  const fields = data.groups[0]?.fields || [];
+  let phpCode = `<?php\n\n    $params = getFieldsShortcodes(json_decode($_GET['shortcode_json']));\n`;
+
+  fields.forEach((field) => {
+    const fieldId = field.id;
+    phpCode += `    $${fieldId} = (isset($params->${fieldId})) && !empty($params->${fieldId}) ? $params->${fieldId} : null;\n`;
+  });
+
+  phpCode += '\n?>';
+  return phpCode;
 };
 
 const formatJson = (json) => {
@@ -141,19 +151,14 @@ const formatJson = (json) => {
 <template>
   <h1>Shortcode Creator</h1>
   <div class="wrapper">
-    <!-- Previsualización del JSON -->
+    <!-- JSON  Preview -->
     <main>
       <h2>JSON Preview</h2>
       <pre>{{ formatJson(jsonData) }}</pre>
     </main>
-    <button class="button-create_shortcode button_add_list" @click.prevent="addShortcode">
-      <span class="button__text">Add Shortcode</span>
-      <span class="button__icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor" height="24" fill="none" class="svg"><line y2="19" y1="5" x2="12" x1="12">
-      </line><line y2="12" y1="12" x2="19" x1="5"></line></svg></span>
-    </button>
-    <!-- Formulario para crear/editar JSON -->
+    <BottonAdd class="button_add_list" @click.prevent="addShortcode" >Add Shortcode</BottonAdd>
+
     <aside class="aside_tools">
-      <!-- Lista de shortcodes -->
       <div class="aside_shortcodes">
         <h2>Shortcodes List</h2>
         <ul>
@@ -161,11 +166,7 @@ const formatJson = (json) => {
             {{ shortcode.name }}
           </li>
         </ul>
-        <button class="button-create_shortcode" @click.prevent="downloadJsonFiles">
-          <span class="button__text">Download All Shortcodes</span>
-          <span class="button__icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor" height="24" fill="none" class="svg"><line y2="19" y1="5" x2="12" x1="12">
-          </line><line y2="12" y1="12" x2="19" x1="5"></line></svg></span>
-        </button>
+        <BottonDownLoad @click.prevent="downloadJsonFiles" />
       </div>
       <h2>JSON Builder</h2>
       <form>
@@ -185,7 +186,7 @@ const formatJson = (json) => {
           placeholder="Enter caption"
         />
 
-    <!-- Bloqueado -->
+    <!-- Blocked -->
     <h2>Blocked Options</h2>
 
     <label for="delete">DELETE:</label>
@@ -308,15 +309,11 @@ const formatJson = (json) => {
       </span>
     </div>
   </div>
-
-        <button class="button-create_shortcode" @click.prevent="addField">
-        <span class="button__text">Crear</span>
-        <span class="button__icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor" height="24" fill="none" class="svg"><line y2="19" y1="5" x2="12" x1="12">
-        </line><line y2="12" y1="12" x2="19" x1="5"></line></svg></span>
-      </button>
+        <BottonAdd @click.prevent="addField">Add Field</BottonAdd>
     </aside>
 
   </div>
-
+<Footer/>
 </template>
+<style lang="scss" src="./scss/main.scss"></style>
 
